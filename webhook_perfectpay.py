@@ -78,7 +78,17 @@ def pagamento_perfectpay():
     return jsonify({"message": "Pagamento não aprovado"}), 400
 
 
+import os
+
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "🚀 API Flask está funcionando no Render!"
+
 if __name__ == "__main__":
-    criar_tabela()
-    print("✅ API rodando na porta 5000")
-    app.run(port=5000)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
