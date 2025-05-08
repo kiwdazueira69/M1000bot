@@ -1,3 +1,4 @@
+import sqlite3
 import os
 
 # Define um caminho absoluto para o banco de dados
@@ -34,8 +35,3 @@ def verificar_status(user_id):
     conn.close()
     return status[0] if status else None
 
-    cursor = conn.cursor()
-    cursor.execute("SELECT status FROM pedidos WHERE user_id = ?", (user_id,))
-    status = cursor.fetchone()
-    conn.close()
-    return status[0] if status else None
