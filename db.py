@@ -1,8 +1,11 @@
-import sqlite3
+import os
+
+# Define um caminho absoluto para o banco de dados
+DB_PATH = os.path.join(os.getcwd(), 'pedidos.db')
 
 # Função para criar o banco de dados e a tabela
 def criar_banco():
-    conn = sqlite3.connect('pedidos.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS pedidos (
@@ -16,7 +19,7 @@ def criar_banco():
 
 # Função para inserir um novo pedido
 def registrar_pedido(user_id, produto, status):
-    conn = sqlite3.connect('pedidos.db')
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("INSERT INTO pedidos (user_id, produto, status) VALUES (?, ?, ?)", (user_id, produto, status))
     conn.commit()
@@ -24,7 +27,13 @@ def registrar_pedido(user_id, produto, status):
 
 # Função para verificar o status do pedido
 def verificar_status(user_id):
-    conn = sqlite3.connect('pedidos.db')
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT status FROM pedidos WHERE user_id = ?", (user_id,))
+    status = cursor.fetchone()
+    conn.close()
+    return status[0] if status else None
+
     cursor = conn.cursor()
     cursor.execute("SELECT status FROM pedidos WHERE user_id = ?", (user_id,))
     status = cursor.fetchone()
